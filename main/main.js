@@ -1,58 +1,22 @@
 // Modules to control application life and create native browser window
-const {
-  app,
-  BrowserWindow,
-  Menu,
-  MenuItem,
-  globalShortcut,
-  shell,
-} = require("electron")
+const { app, BrowserWindow } = require("electron")
 const path = require("path")
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: process.env.freecatWindowWidth
-      ? process.env.freecatWindowWidth
-      : 800,
-    height: process.env.freecatWindowHeight
-      ? process.env.freecatWindowHeight
-      : 600,
+    width: 800,
+    height: 600,
     webPreferences: {
-      icon:
-        process.platform == "win32"
-          ? path.join(__dirname, "./icons/seconds.ico")
-          : path.join(__dirname, "./icons/seconds.svg"),
       webviewTag: true,
       preload: path.join(__dirname, "./preload.js"),
+      preload: path.join(__dirname, "preload.js"),
+      webviewTag: true,
     },
   })
 
-  //  const menu = new Menu()
-  //  menu.append(new MenuItem({
-  //    label: 'File',
-  //    submenu: [{
-  //      role: 'Help',
-  //      accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
-  //      click: () => {  }
-  //    }]
-  //  }));
-  /* Rickroll. Do not uncomment.
-  app.on('ready', () => {
-    globalShortcut.register('CommandOrControl+C', () => {
-      shell.openExternal("https://youtu.be/dQw4w9WgXcQ");
-    });
-    globalShortcut.register("CommandOrControl+W", () => {
-      shell.openExternal("https://youtu.be/dQw4w9WgXcQ");
-    });
-  globalShortcut.register("CommandOrControl+Shift+Esc", () => {
-    shell.openExternal("https://youtu.be/dQw4w9WgXcQ");
-  });
-});
-*/
-  /* Menu.setApplicationMenu(menu); */
   // and load the index.html of the app.
-  mainWindow.loadFile("index.html")
+  mainWindow.loadFile("./index.html")
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -68,10 +32,6 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    mainWindow.setAppDetails({
-      appId: Math.random().toString(),
-      appIconPath: "./",
-    })
   })
 })
 
